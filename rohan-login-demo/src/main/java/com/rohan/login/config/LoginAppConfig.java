@@ -22,13 +22,13 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @EnableWebMvc
 @ComponentScan(basePackages="com.rohan.login")
 @PropertySource("classpath:persistence-mysql.properties")
-
-
 public class LoginAppConfig implements WebMvcConfigurer{
 	
+	//Injects data from the property file 
 	@Autowired
 	private Environment env;
 	
+	//Translates view-name to appropriate URL
 	@Bean
 	public ViewResolver viewResolver() {
 	
@@ -39,6 +39,7 @@ public class LoginAppConfig implements WebMvcConfigurer{
 		return internalViewResolver;
 	}
 	
+	//Configures database as data source based on information provided in properties file
 	@Bean
 	public DataSource dataSource() {
 		//Connection Pool
@@ -66,6 +67,7 @@ public class LoginAppConfig implements WebMvcConfigurer{
 		return theDataSource;
 	}
 	
+	//Allows access to static resources like css etc
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
             registry.addResourceHandler("/resources/**")
@@ -73,8 +75,9 @@ public class LoginAppConfig implements WebMvcConfigurer{
                     .setCachePeriod(31556926);
     }
 	
+	
 	private int getIntegerProperty(String propertyName) {
 		//Convert String value to Integer from properties file
 		return Integer.parseInt(env.getProperty(propertyName));
 	}
-	}
+}

@@ -20,11 +20,13 @@ public class LoginSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private DataSource loginDataSource;
 	
+	//Configures database as the data source for authentication
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
 		auth.jdbcAuthentication().dataSource(loginDataSource);
 	}
 	
+	//Configures URL mappings that needs to be authenticated and to enable custom login-form
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
@@ -40,6 +42,7 @@ public class LoginSecurityConfig extends WebSecurityConfigurerAdapter{
 		.logout().permitAll();
 	}
 	
+	//Configures URL-mappings that don't need to be authenticated
 	@Override
 	public void configure(WebSecurity web) throws Exception{
 		web.ignoring().antMatchers("/register/**")
@@ -47,6 +50,7 @@ public class LoginSecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	
 	
+	//Provides access to the database to create users/also checks if user already exists in the database
 	@Bean
 	public UserDetailsManager userDetailsManager() {
 		
